@@ -12,7 +12,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 
 
@@ -50,6 +49,7 @@ class EmployeeResource extends Resource
                     'homme' => 'HOMME',
                     'femme' => 'FEMME',
                 ]),
+
                 Forms\Components\Select::make('fonction_id')
                 ->label('Fonction')
                 ->relationship('fonction', 'designation')
@@ -60,15 +60,15 @@ class EmployeeResource extends Resource
                 ->prefix('DZD'),
                 Forms\Components\Checkbox::make('is_active')
                 ->label('Active'),
+                Forms\Components\MarkdownEditor::make('note_interne')
+                ->label('Note interne')
+                ->columnSpan('full'),
                 Forms\Components\Section::make('image')
                 ->schema([
-                    
-                    FileUpload::make('Image')
-                        ->image()
-                        ->directory('image_profiles')
-                        ->disk('local')
-                        ->hiddenLabel(),                                
-                        ]),
+                    Forms\Components\FileUpload::make('image'),
+                ]),
+
+
 
             ]);
     }
@@ -77,9 +77,8 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
-                    ->label('Image')
-                    ->circular(),
+                Tables\Columns\ImageColumn::make('image')    
+                ->circular(),
                 Tables\Columns\TextColumn::make('matricule')
                 ->searchable(),
                 Tables\Columns\TextColumn::make('nom')
