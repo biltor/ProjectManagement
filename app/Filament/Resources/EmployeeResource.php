@@ -31,6 +31,7 @@ class EmployeeResource extends Resource
         $directory='/app/public/';
         return $form
             ->schema([
+
                 Forms\Components\TextInput::make('matricule')
                 ->required()
                 ->maxLength(255),
@@ -97,7 +98,7 @@ class EmployeeResource extends Resource
                 ->falseIcon('heroicon-o-x-mark'),
 
 
-                
+    
                 //
             ])
             ->filters([
@@ -125,7 +126,7 @@ class EmployeeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ContratsRelationManager::class,
         ];
     }
 

@@ -1,34 +1,24 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\EmployeeResource\RelationManagers;
 
-use App\Filament\Resources\ContratResource\Pages;
-use App\Filament\Resources\ContratResource\RelationManagers;
-use App\Models\Contrat;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ContratResource extends Resource
+class ContratsRelationManager extends RelationManager
 {
-    protected static ?string $model = Contrat::class;
+    protected static string $relationship = 'contrats';
 
-    protected static ?string $slug = 'RH/Contrats';
-    protected static ?string $navigationGroup = 'Ressource Humaine';
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
-    protected static ?int $navigationSort = 3;
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
-
                 Forms\Components\TextInput::make('ref')
-                    ->label('Refference')
                     ->required()
                     ->maxLength(255),
                     Forms\Components\Select::make('type_contrat')
@@ -47,45 +37,31 @@ class ContratResource extends Resource
                     ->required()
                     ->maxDate(now()),
                 Forms\Components\TextInput::make('period')
-                   ->label('Period d\'essai :')
-                   ->required()
-                   ->suffix ('Mois'),
-                
+                   ->label('Period d\'essai'),
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('ref')
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('ref'),
             ])
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListContrats::route('/'),
-            'create' => Pages\CreateContrat::route('/create'),
-            'edit' => Pages\EditContrat::route('/{record}/edit'),
-        ];
     }
 }

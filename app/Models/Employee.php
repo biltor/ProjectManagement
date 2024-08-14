@@ -19,6 +19,7 @@ class Employee extends Model
         'taux',
         'is_active',
         'image',
+        'note_interne'
     ];
   
 
@@ -27,4 +28,11 @@ class Employee extends Model
     {
         return $this->belongsTo(Fonction::class);
     }
+
+        
+    public function contrats(): HasMany
+    {
+        return $this->hasMany(Contrat::class);
+    }
+    
 }

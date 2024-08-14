@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contrat extends Model
 {
-    protected $fillable = ['Ref','Type_contrat','Date_recrutement','Date_fin','period','employee_id' ];
+    protected $fillable = ['ref','type_contrat','date_recrutement','date_fin','period','employee_id' ];
 
-    
-    public function employees(): HasMany
+
+    public function employees(): BelongsTo
     {
-        return $this->hasMany(Employee::class);
+        return $this->belongsTo(Employee::class);
     }
 }
