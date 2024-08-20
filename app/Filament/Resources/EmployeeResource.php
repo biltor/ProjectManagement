@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\FileUpload;
+use Filament\Infolists\Components\Tabs;
 
 
 class EmployeeResource extends Resource
@@ -28,50 +29,86 @@ class EmployeeResource extends Resource
 
     public static function form(Form $form): Form
     {
+        //declaration personnel
         $directory='/app/public/';
         return $form
-            ->schema([
-
-                Forms\Components\TextInput::make('matricule')
-                ->required()
-                ->maxLength(255),
-                Forms\Components\TextInput::make('nom')
-                ->required()
-                ->maxLength(255),
-                Forms\Components\TextInput::make('prenom')
-                ->required()
-                ->maxLength(255),
-                Forms\Components\DatePicker::make('date_of_birth')
-                ->required()
-                ->maxDate(now()),
-                Forms\Components\Select::make('sex')
-                ->label('Sex :')
-                ->options([
-                    'homme' => 'HOMME',
-                    'femme' => 'FEMME',
-                ]),
-
-                Forms\Components\Select::make('fonction_id')
-                ->label('Fonction')
-                ->relationship('fonction', 'designation')
-                ->required(),
-                Forms\Components\TextInput::make('taux')
-                ->label('Taux :')
-                ->required()
-                ->prefix('DZD'),
-                Forms\Components\Checkbox::make('is_active')
-                ->label('Active'),
-                Forms\Components\MarkdownEditor::make('note_interne')
-                ->label('Note interne')
-                ->columnSpan('full'),
-                Forms\Components\Section::make('image')
+        ->schema([
+            Forms\Components\Group::make()
                 ->schema([
-                    Forms\Components\FileUpload::make('image'),
-                ]),
+                    Forms\Components\Section::make('Informations Personnel')
+                        ->schema([
+                            Forms\Components\TextInput::make('matricule')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpan('full'),
+                            Forms\Components\TextInput::make('nom')
+                            ->required()
+                            ->maxLength(255),
+                            Forms\Components\TextInput::make('prenom')
+                            ->required()
+                            ->maxLength(255),
+                            Forms\Components\DatePicker::make('date_of_birth')
+                            ->label('Date de naissance :')
+                            ->required()
+                            ->maxDate(now()),
+                            Forms\Components\Select::make('sex')
+                            ->label('Sex :')
+                            ->options([
+                                'homme' => 'HOMME',
+                                'femme' => 'FEMME',
+                            ]),
+                            Forms\Components\TextInput::make('tel')
+                            ->label('Telephone')
+                            ->tel(),
+                            Forms\Components\TextInput::make('email')
+                            ->label('E-MAIL')
+                            ->email(),
+                                
+                        ])
+                        ->columns(2),
+
+                        Forms\Components\Section::make('image')
+                        ->schema([
+                            Forms\Components\FileUpload::make('image'),
+                        ])
+                        ->collapsible(),
 
 
+                ])
+                ->columnSpan(['lg' => 2]),
 
-            ]);
+            Forms\Components\Group::make()
+                ->schema([
+                    Forms\Components\Section::make('Information Professionel')
+                        ->schema([
+                            Forms\Components\Toggle::make('is_active')
+                            ->label('Active'),
+                            //->helperText('cette opti')
+
+                            Forms\Components\Select::make('fonction_id')
+                                ->label('Fonction')
+                                ->relationship('fonction', 'designation')
+                                ->required(),
+                            Forms\Components\TextInput::make('taux')
+                                ->label('Taux :')
+                                ->required()
+                                ->prefix('DZD'),
+                        ]),
+                    Forms\Components\Section::make('Notes Interne')
+                        ->schema([
+                            Forms\Components\MarkdownEditor::make('note_interne')
+                           // ->label('Note interne')
+                            ->columnSpan('full'),
+
+                        ]),
+
+
+            
+
+                ])
+                ->columnSpan(['lg' => 1]),
+        ])
+        ->columns(3);
     }
 
     public static function table(Table $table): Table

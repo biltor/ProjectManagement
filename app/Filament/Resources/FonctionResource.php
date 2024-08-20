@@ -38,9 +38,12 @@ class FonctionResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                 ->label('N°'),
+                Tables\Columns\TextColumn::make('code')
+                ->label('CODE'),
                 Tables\Columns\TextColumn::make('designation')
-                ->label('Designation')
+                ->label('DESIGNATION')
                 ->searchable(),
+                
 
             ])
             ->filters([

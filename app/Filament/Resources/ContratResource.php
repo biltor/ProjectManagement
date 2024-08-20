@@ -26,7 +26,10 @@ class ContratResource extends Resource
     {
         return $form
             ->schema([
-
+                Forms\Components\Select::make('employee_id')
+                ->label('matricule d\'employee')
+                ->relationship('employees', 'matricule')
+                ->required(),
                 Forms\Components\TextInput::make('ref')
                     ->label('Refference')
                     ->required()
@@ -58,7 +61,16 @@ class ContratResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('ref'),
+                Tables\Columns\TextColumn::make('date_recrutement')
+                ->label('date de debut de contrat')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('date_fin')
+                ->label('date de fin de contrat')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('period')
+                ->label('Period d\'essai / mois')
+                ->searchable(),
             ])
             ->filters([
                 //

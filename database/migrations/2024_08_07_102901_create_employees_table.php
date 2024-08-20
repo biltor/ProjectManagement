@@ -19,6 +19,8 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('sex');
             $table->foreignId('fonction_id')->constrained('fonctions')->cascadeOnDelete();
+            $table->string('tel')->nullable();
+            $table->string('email')->nullable();
             $table->double('taux');
             $table->boolean('is_active')->default(false);
             $table->string('image')->nullable();
