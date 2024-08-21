@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UniteResource\Pages;
-use App\Filament\Resources\UniteResource\RelationManagers;
-use App\Models\Unite;
+use App\Filament\Resources\ClientResource\Pages;
+use App\Filament\Resources\ClientResource\RelationManagers;
+use App\Models\Client;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,25 +13,17 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class UniteResource extends Resource
+class ClientResource extends Resource
 {
-    protected static ?string $model = Unite::class;
+    protected static ?string $model = Client::class;
 
-    protected static ?string $slug = 'inventory/unite';
-    protected static ?string $navigationGroup = 'Gestion de stock';
-    protected static ?string $navigationIcon = 'heroicon-m-link';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('code')
-                ->label('Code')
-                ->required(),
-                Forms\Components\TextInput::make('designation')
-                ->label('Designation')
-                ->required()
-                ->maxLength(255),
+                //
             ]);
     }
 
@@ -64,9 +56,9 @@ class UniteResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUnites::route('/'),
-            'create' => Pages\CreateUnite::route('/create'),
-            'edit' => Pages\EditUnite::route('/{record}/edit'),
+            'index' => Pages\ListClients::route('/'),
+            'create' => Pages\CreateClient::route('/create'),
+            'edit' => Pages\EditClient::route('/{record}/edit'),
         ];
     }
 }

@@ -12,7 +12,7 @@ class Famille extends Model
     protected $fillable =['code','designation'];
 
 
-    public function produits(): HasMany
+    public function produit(): HasMany
     {
         return $this->hasMany(Produit::class);
     }

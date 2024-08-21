@@ -16,9 +16,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ProduitResource extends Resource
 {
     protected static ?string $model = Produit::class;
-    protected static ?string $slug = 'inventory/product';
+    protected static ?string $slug = 'inventory/produit';
     protected static ?string $navigationGroup = 'Gestion de stock';
-    protected static ?string $navigationIcon = 'heroicon-c-light-bulb';
+
+    protected static ?string $navigationIcon = 'heroicon-o-bolt';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -27,23 +29,35 @@ class ProduitResource extends Resource
                 ->label('Code')
                 ->required(),
                 Forms\Components\TextInput::make('designation')
-                ->label('designation')
-                ->required(),
+                ->label('Designation')
+                ->required()
+                ->maxLength(255),
+
                 Forms\Components\Select::make('unite_id')
-                                ->label('Unite')
-                                ->relationship('unites', 'designation')
-                                ->required(),
+                ->label('Unite')
+                ->relationship('unites', 'designation')
+                ->required(),
                 Forms\Components\Select::make('famille_id')
-                                ->label('Familly')
-                                ->relationship('famillies', 'designation')
+                                ->label('Famille')
+                                ->relationship('familles', 'designation')
                                 ->required(),
+
                 Forms\Components\Select::make('tva')
-                                ->label('TVA :')
-                                ->options([
-                                    '17%' => '17%',
-                                    '19%' => '19%',
-                                    '21%' => '21%',
-                                ]),
+                ->label('TVA :')
+                ->options([
+                    '0%' => '0%',
+                    '17%' => '17%',
+                    '19%' => '19%',
+                ]),
+                Forms\Components\Select::make('type')
+                ->label('TYPE :')
+                ->options([
+                    'stock' => 'STOCKABLE',
+                    'service' => 'SERVICE',
+
+                ]),
+
+                //
             ]);
     }
 
@@ -51,14 +65,6 @@ class ProduitResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('code')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('designation')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('unites.designation')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('famillies.designation')
-                ->searchable(),
                 //
             ])
             ->filters([

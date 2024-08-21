@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UniteResource\Pages;
-use App\Filament\Resources\UniteResource\RelationManagers;
-use App\Models\Unite;
+use App\Filament\Resources\MagasinResource\Pages;
+use App\Filament\Resources\MagasinResource\RelationManagers;
+use App\Models\Magasin;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,13 +13,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class UniteResource extends Resource
+class MagasinResource extends Resource
 {
-    protected static ?string $model = Unite::class;
+    protected static ?string $model = Magasin::class;
 
-    protected static ?string $slug = 'inventory/unite';
+    protected static ?string $slug = 'inventory/magasin';
     protected static ?string $navigationGroup = 'Gestion de stock';
-    protected static ?string $navigationIcon = 'heroicon-m-link';
+    protected static ?string $navigationIcon = 'heroicon-m-inbox-stack';
 
     public static function form(Form $form): Form
     {
@@ -39,7 +39,14 @@ class UniteResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('id')
+                ->label('N°'),
+                Tables\Columns\TextColumn::make('code')
+                ->label('CODE')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('designation')
+                ->label('DESIGNATION')
+                ->searchable(),
             ])
             ->filters([
                 //
@@ -64,9 +71,9 @@ class UniteResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUnites::route('/'),
-            'create' => Pages\CreateUnite::route('/create'),
-            'edit' => Pages\EditUnite::route('/{record}/edit'),
+            'index' => Pages\ListMagasins::route('/'),
+            'create' => Pages\CreateMagasin::route('/create'),
+            'edit' => Pages\EditMagasin::route('/{record}/edit'),
         ];
     }
 }
