@@ -16,14 +16,36 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ClientResource extends Resource
 {
     protected static ?string $model = Client::class;
+    protected static ?string $slug = 'commercial/client';
+    protected static ?string $navigationGroup = 'Commeçial';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('code')
+                ->label('Code')
+                ->required(),
+                Forms\Components\TextInput::make('nomination')
+                ->label('Nomination')
+                ->required()
+                ->maxLength(255),
+                Forms\Components\TextInput::make('nis')
+                ->label('NIS'),
+                Forms\Components\TextInput::make('nif')
+                ->label('NIF'),
+                Forms\Components\TextInput::make('rc')
+                ->label('RC'),
+                Forms\Components\TextInput::make('ci')
+                ->label('CI'),
+                Forms\Components\TextInput::make('email')
+                ->label('E-mail')
+                ->email(),
+                Forms\Components\TextInput::make('phone_number')
+                ->label('Tel')
+                ->tel(),
             ]);
     }
 
@@ -31,7 +53,28 @@ class ClientResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('code')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('nomination')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('nis')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('nif')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('rc')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('ci')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('phone_number')
+                ->searchable(),
+                Tables\Columns\IconColumn::make('is_active')
+                ->label('Status')
+                ->boolean()
+                ->trueIcon('heroicon-o-check-badge')
+                ->falseIcon('heroicon-o-x-mark'),
+                
             ])
             ->filters([
                 //
