@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nif')->nullable();
             $table->string('rc')->nullable();
             $table->string('ci')->nullable();
+            $table->string('wilaya')->nullable();
             $table->string('email')->nullable();
             $table->string('phone_number')->nullable();
             $table->text('description')->nullable();
